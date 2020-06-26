@@ -26,9 +26,23 @@ namespace covidance.Controllers
         }
 
         // GET: Records
+        public async Task<IActionResult> History()
+        {
+            DateTime now = DateTime.UtcNow.AddDays(-14);
+            return View(await _defaultRecords.Where(x => x.When >= now).ToListAsync());
+        }
+
         public async Task<IActionResult> Index()
         {
-            return View(await _defaultRecords.ToListAsync());
+            DateTime now = DateTime.UtcNow;
+            var allPeeps = _context.Persons.Where(x => x.UserId == User.Identity.Name);
+            var scannedBeforeNow = _context.Records
+                                            .Where(x => x.PersonInfo.UserId == User.Identity.Name)
+                                            .Where(x => x.When < now)
+                                            .Select(x => x.PersonInfoId)
+                                            .Distinct();
+            var toscan = allPeeps.Where(x => !scannedBeforeNow.Contains(x.Id));
+            return View(await toscan.ToListAsync());
         }
 
         // GET: Records/Details/5
@@ -60,7 +74,7 @@ namespace covidance.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("When,Temperature,Symptoms,RecentContact,Sanitised,Bagged,Reason,Photo")] RecordInfo recordInfo)
+        public async Task<IActionResult> Create([Bind("When,Temperature,Symptoms,RecentContact,Sanitised,Bagged,Reason")] RecordInfo recordInfo)
         {
             if (ModelState.IsValid)
             {

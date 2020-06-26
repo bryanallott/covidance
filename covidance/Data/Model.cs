@@ -51,7 +51,5 @@ namespace covidance.Data
         public bool Bagged { get; set; }
         [MaxLength(128)]
         public string Reason { get; set; }
-        [MaxLength(512)]
-        public string Photo { get; set; }
     }
 }

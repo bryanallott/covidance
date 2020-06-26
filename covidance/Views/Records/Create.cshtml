@@ -1,67 +1,46 @@
-﻿@model covidance.Data.RecordInfo
+﻿@model covidance.Data.PersonInfo
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = $"Scan {Model.Name}";
 }
 
-<h1>Create</h1>
-
-<h4>RecordInfo</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    <div class="bg-blue-800 p-2 shadow text-xl text-white">
+        <h3 class="font-bold pl-2">@ViewBag.Title (<a asp-action="Index">Cancel</a>)</h3>
+    </div>
+    <div class="flex flex-wrap">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="PersonId" value="@Model.Id" />
             <div class="form-group">
-                <label asp-for="When" class="control-label"></label>
-                <input asp-for="When" class="form-control" />
-                <span asp-validation-for="When" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Temperature" class="control-label"></label>
-                <input asp-for="Temperature" class="form-control" />
-                <span asp-validation-for="Temperature" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Symptoms" class="control-label"></label>
-                <select asp-for="Symptoms" class="form-control"></select>
-                <span asp-validation-for="Symptoms" class="text-danger"></span>
+                <label class="control-label">Temperature</label>
+                <input name="Temperature" class="form-control" required maxlength="7" />
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="RecentContact" /> @Html.DisplayNameFor(model => model.RecentContact)
+                    <input class="form-check-input" name="RecentContact" value="true" /> Recently been in contact with someone who has/had Covid-19?
+                    <input type="hidden" name="RecentContact" value="false" />
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Sanitised" /> @Html.DisplayNameFor(model => model.Sanitised)
+                    <input class="form-check-input" name="Sanitised" value="true" /> Sanitised hands?
+                    <input type="hidden" name="Sanitised" value="false" />
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Bagged" /> @Html.DisplayNameFor(model => model.Bagged)
+                    <input class="form-check-input" name="Bagged" /> Handing in belongings?
+                    <input type="hidden" name="Bagged" value="false" />
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="Reason" class="control-label"></label>
-                <input asp-for="Reason" class="form-control" />
-                <span asp-validation-for="Reason" class="text-danger"></span>
+                <label class="control-label">Reason for visit</label>
+                <input name="Reason" class="form-control" required maxlength="128" />
             </div>
             <div class="form-group">
-                <label asp-for="Photo" class="control-label"></label>
-                <input asp-for="Photo" class="form-control" />
-                <span asp-validation-for="Photo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
