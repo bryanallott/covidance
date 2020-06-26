@@ -1,0 +1,8 @@
+﻿{%CLUBNAME%}
+
+{%MESSAGE%}
+
+Invoice for R {%INVOICEAMOUNT%} due by {%INVOICEDUE%}
+
+You can view the invoice here:
+{%INVOICEURL%}

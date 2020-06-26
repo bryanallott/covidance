@@ -1,0 +1,5 @@
+add-migration -context covidance.Data.CovidanceContext 
+
+script-migration -context covidance.Data.CovidanceContext
+
+update-database -context covidance.Data.CovidanceContext
